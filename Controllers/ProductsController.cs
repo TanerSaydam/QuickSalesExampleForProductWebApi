@@ -28,17 +28,25 @@ public class ProductsController : ControllerBase
             new Unit(){ Name = "KG"},
         };
 
+        IList<Category> categories = new List<Category>()
+        {
+            new Category() {Name = "Sebze"},
+            new Category() {Name = "Meyve"},
+            new Category() {Name = "Abur Cubur"},
+        };
         
-
         IList<Product> products = new List<Product>();
         IList<ProductUnit> productUnits = new List<ProductUnit>();
 
         for (int i = 0; i < 10000; i++)
         {
+            Random rdm = new();
+
             Product product = new()
             {
                 Name = "Product " + i,
                 Code = "PRD" + i,
+                CategoryId = categories[rdm.Next(0,2)].Id
             };
             products.Add(product);
 
@@ -54,6 +62,7 @@ public class ProductsController : ControllerBase
             }
         }
 
+        await context.Categories.AddRangeAsync(categories);
         await context.Units.AddRangeAsync(units);
         await context.Products.AddRangeAsync(products);
         await context.ProductUnits.AddRangeAsync(productUnits);
@@ -67,11 +76,13 @@ public class ProductsController : ControllerBase
     {
         PaginationResult<ProductDto> response =
             await context.Products
+            .Include(p=> p.Category)
             .Select(s=> new ProductDto
             {
                 Id = s.Id,
                 Code = s.Code,
                 Name = s.Name,
+                Category = s.Category,
                 ProductUnits = 
                     context.ProductUnits
                     .Where(p=> p.ProductId == s.Id)

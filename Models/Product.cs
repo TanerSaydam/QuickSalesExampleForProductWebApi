@@ -10,7 +10,21 @@ public sealed class Product
     }
     public string Id { get; set; }
     public string Code { get; set; }
-    public string Name { get; set; } 
+    public string Name { get; set; }
+
+    [ForeignKey("Category")]
+    public string CategoryId { get; set; }
+    public Category Category { get; set; }
+}
+
+public sealed class Category
+{
+    public Category()
+    {
+        Id = Guid.NewGuid().ToString();
+    }
+    public string Id { get; set; }
+    public string Name { get; set; }
 }
 
 public sealed class Unit

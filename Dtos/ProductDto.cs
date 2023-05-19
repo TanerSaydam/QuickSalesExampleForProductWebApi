@@ -8,4 +8,5 @@ public sealed class ProductDto
     public string Code { get; set; }
     public string Name { get; set; }
     public ICollection<ProductUnit> ProductUnits { get; set; }
+    public Category Category { get; set; }
 }

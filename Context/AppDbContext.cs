@@ -10,6 +10,7 @@ public sealed class AppDbContext : DbContext
         optionsBuilder.UseSqlServer("Data Source=DESKTOP-3BJ5GK9;Initial Catalog=MarketDb;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False");
     }
 
+    public DbSet<Category> Categories { get; set; }
     public DbSet<Product> Products { get; set; }
     public DbSet<Unit> Units { get; set; }
     public DbSet<ProductUnit> ProductUnits { get; set; }    
